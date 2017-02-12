@@ -1,0 +1,196 @@
+
+/**
+ * Bootstrap Fonts
+ */
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('../bower_components/bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('../bower_components/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+  url('../bower_components/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'),
+  url('../bower_components/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+  url('../bower_components/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+/**
+ *Font Awesome Fonts
+ */
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../bower_components/font-awesome/fonts/fontawesome-webfont.eot?v=4.1.0');
+  src: url('../bower_components/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'),
+  url('../bower_components/font-awesome/fonts/fontawesome-webfont.woff?v=4.1.0') format('woff'),
+  url('../bower_components/font-awesome/fonts/fontawesome-webfont.ttf?v=4.1.0') format('truetype'),
+  url('../bower_components/font-awesome/fonts/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/**
+ * App-wide Styles
+ */
+
+ body {
+  font-family: "Helvetica Neue";
+  font-weight: normal;
+}
+
+.navbar{
+  background-color: rgba(192,192,192,1);
+  position: fixed;
+  top: 0px;
+  width: 100% !important;
+}
+
+.navbar-title{
+  color: white;
+}
+
+.messages{
+  padding-top: 60px;
+  padding-bottom: 60px; /* HEIGHT OF THE INPUT BAR */
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+.text-bubble{
+  width: auto;
+  max-width: 80% !important;
+  padding: 10px 20px 0px !important;
+  font-size: 20px;
+  word-wrap: break-word;
+  margin-bottom: 10px;
+}
+
+.from-me{
+  position:relative;
+  padding:10px 20px;
+  color:white; 
+  background:#0B93F6;
+  border-radius:25px;
+  float: right;
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; 
+    -webkit-animation: fadein 2s; 
+    -o-animation: fadein 2s;
+}
+
+.from-them{
+  position:relative;
+  padding:10px 20px;
+  background:#E5E5EA;
+  border-radius:25px;
+  color: black;
+  font-family: arial;
+  float: left;
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; 
+    -webkit-animation: fadein 2s; 
+    -o-animation: fadein 2s; 
+}
+
+.user-input{
+  height: 50px;
+  width: 100%;
+  padding: 8px;
+  z-index: 10000;
+  background-color: #f4f4f4;
+  position: fixed;
+  bottom: 20px;
+  border-top-width: 1px;
+  border-top-color: rgb(210,210,210);
+  border-top-style: solid;
+  display: inline;
+}
+
+.footer{
+  height: 20px;
+  width: 100%;
+  z-index: 10000;
+  background-color: #f4f4f4;
+  position: fixed;
+  bottom: 0px;
+  border-top-width: 1px;
+  border-top-color: rgb(210,210,210);
+  border-top-style: solid;
+  display: inline;
+}
+
+.message-input{
+  float: left;
+  width: 85% !important;
+  height: 34px;
+  right: 50px;
+  left: 10px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(210,210,210);
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  padding: 0px 3px;
+}
+
+.send-button{
+  font-size: 20px;
+  line-height: 30px;
+  width: 15%;
+  text-align: center;
+  color: blue;
+  float: right;
+}
+
+.buttonSelection{
+  float: left;
+  width: 85% !important;
+  right: 50px;
+  left: 10px;
+  overflow-x: scroll;
+}
+
+.message-input-slider{
+  width: 60%;
+}
+
+/* animation */
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 1;
+    }
+}

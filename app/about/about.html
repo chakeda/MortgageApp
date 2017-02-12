@@ -1,0 +1,52 @@
+<!-- navbar is here so it can be in the aboutController -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://app.uxweb.io">
+        <img src="http://app.uxweb.io/assets/images/LOGO.png" style="max-height:30px;" />
+        <!-- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
+        <u>Home Ready Evaluator</u>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="http://app.uxweb.io">Back to Application</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid messages"> 
+  <div class="row well text-center">
+    <h3>{{$ctrl.realtor.name}}</h3> <i>{{$ctrl.realtor.title}}</i>
+    <br />
+    <p>{{$ctrl.realtor.address}}</p>
+    <p>
+        <b>DIRECT:</b> <a href="tel:{{$ctrl.realtor.directPhone}}">{{$ctrl.realtor.directPhone}}</a> | 
+        <b>MOBILE:</b> <a href="tel:{{$ctrl.realtor.mobilePhone}}">{{$ctrl.realtor.mobilePhone}}</a> | 
+        <b>eFAX:</b> <a href="{{$ctrl.realtor.faxPhone}}">{{$ctrl.realtor.faxPhone}}</a>
+    </p>
+    <p>
+        <b>EMAIL:</b> <a href="{{$ctrl.realtor.email}}">{{$ctrl.realtor.email}}</a>
+    </p>
+    <p>
+        <b>FACEBOOK:</b> <a href="{{$ctrl.realtor.facebookUrl}}">{{$ctrl.realtor.facebookName}}</a>
+    </p>
+    <p>
+        <img src="{{$ctrl.realtor.pictureUrl}}" style="max-height:100px;">
+        <a><img src="{{$ctrl.realtor.bannerUrl}}" style="max-height:100px; max-width:400px;"></a>
+    </p>
+    <p>LO Licensing: {{$ctrl.realtor.LOlicense}}</p> 
+    <p>Company Licensing: {{$ctrl.realtor.CompanyLicense}}</p>
+  </div>
+  <hr />
+  <br />
+  <div class="row text-center">
+    <img src="http://app.uxweb.io/assets/images/LOGO.png" style="max-height:200px;" />
+  </div>
+</div>

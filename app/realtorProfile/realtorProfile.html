@@ -1,0 +1,112 @@
+
+<!-- navbar is here so it can be in the aboutController -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://app.uxweb.io">
+        <img src="http://app.uxweb.io/assets/images/LOGO.png" style="max-height:30px;" />
+        <!-- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
+        <u>Home Ready Evaluator</u>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="http://app.uxweb.io">Back to Application</a></li>
+        <li><a href="http://app.uxweb.io/admin">Admin</a></li>
+        <li><a href="http://app.uxweb.io/realtorProfile">Edit App Info</a></li>
+        <li><a href="mailto:tfinnegan@peoplesmortgage.com">Help</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid messages"> 
+
+    <div class="row" ng-if="!$ctrl.isRealtor">
+        <p>You are not authorized to view this section.</p>
+    </div>
+    
+    <div class="row" ng-if="$ctrl.isRealtor">
+        
+        <h3 class="text-center"> Realtor Profile </h3>
+
+        <table class="table table-striped" id="content">
+            <tr>
+                <td><b>Name:</b> </td>
+                <td><input ng-model="$ctrl.realtor.name" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>App URL:</b> </td>
+                <td>http://homereadyevaluator.com/realtor/{{$ctrl.realtor.realtorAppName}}<input ng-model="$ctrl.realtor.realtorAppName" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Title:</b> </td>
+                <td><input ng-model="$ctrl.realtor.title" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Address:</b> </td>
+                <td><input ng-model="$ctrl.realtor.address" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Direct Phone:</b> </td>
+                <td><input ng-model="$ctrl.realtor.directPhone" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Mobile Phone:</b> </td>
+                <td><input ng-model="$ctrl.realtor.mobilePhone" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Fax:</b> </td>
+                <td><input ng-model="$ctrl.realtor.faxPhone" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Email:</b> </td>
+                <td><input ng-model="$ctrl.realtor.email" type="text" class="form-control" /></td>
+            </tr>            
+            <tr>
+                <td><b>Facebook URL:</b> </td>
+                <td><input ng-model="$ctrl.realtor.facebookUrl" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Facebook Page Name:</b> </td>
+                <td><input ng-model="$ctrl.realtor.facebookName" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Picture URL:</b> </td>
+                <td><input ng-model="$ctrl.realtor.pictureUrl" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Banner URL:</b> </td>
+                <td><input ng-model="$ctrl.realtor.bannerUrl" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>LO Licensing Number:</b> </td>
+                <td><input ng-model="$ctrl.realtor.LOlicense" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Company Licensing Number:</b> </td>
+                <td><input ng-model="$ctrl.realtor.CompanyLicense" type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><b>Navigation Bar Color:</b> </td>
+                <td>
+                    <select ng-model="$ctrl.realtor.navbarColor" class="form-control">
+                        <option value="red">Red</option>
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="rgba(192,192,192,1)">Gray</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <button class="btn btn-primary" ng-click="$ctrl.updateProfile()">Update</button>
+        <p style="color:green" ng-if="$ctrl.updateSuccess">Profile Updated!</p>
+    </div>  
+    
+</div>

@@ -1,0 +1,109 @@
+<!-- navbar is here so it can be in the aboutController -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://app.uxweb.io">
+        <img src="http://app.uxweb.io/assets/images/LOGO.png" style="max-height:30px;" />
+        <!-- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
+        <u>Home Ready Evaluator</u>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="http://app.uxweb.io">Back to Application</a></li>
+        <li><a href="http://app.uxweb.io/admin">Admin</a></li>
+        <li><a href="http://app.uxweb.io/realtorProfile">Edit App Info</a></li>
+        <li><a href="mailto:tfinnegan@peoplesmortgage.com">Help</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+    function demoFromHTML() {
+            
+      var doc = new jsPDF('p', 'pt');
+
+      var res = doc.autoTableHtmlToJson(document.getElementById("content"));
+      doc.autoTable(res.columns, res.data, {
+        styles: {
+          overflow: 'linebreak',
+          fontSize: 10
+        }
+      });
+
+      var header = function(data) {
+        doc.setFontSize(10);
+        doc.setTextColor(40);
+        doc.setFontStyle('normal');
+        //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+        doc.text("app.uxweb.io applicant financial report", data.settings.margin.left, 50);
+      };
+
+      var options = {
+        beforePageContent: header,
+        margin: {
+          top: 80
+        },
+        startY: doc.autoTableEndPosY() + 20
+      };
+
+      doc.save("Applicants.pdf");
+    }
+</script>
+
+
+
+<div class="container-fluid messages"> 
+
+    <div class="row" ng-if="!$ctrl.isRealtor">
+        <p>You are not authorized to view this section.</p>
+    </div>
+    
+    <div class="row" ng-if="$ctrl.isRealtor">
+        <h3 class="text-center"> Applications </h3>
+
+        <hr />
+        <p>Note: Readiness to Qualify is a 1-3 scale where 1 is ready to go and 3 needs to improve assets, credits, or income.</p>
+        <br />
+        
+        <button onclick="javascript:demoFromHTML()" class="btn btn-default">Export to PDF</button>
+        
+        <table class="table table-striped"  id="content">
+            <th>
+                <td>Readiness to Qualify:</td>
+                <td>Borrower Name:</td>
+                <td>Maximum Monthly Housing Expense:</td>
+                <td>Mortgage Loan:</td>
+                <td>Total Income:</td>
+                <td>Total Debt:</td>
+                <td>Total Assets:</td>
+                <td>Present Housing Payment:</td>
+                <td>Credit Score:</td>
+                <td>Application Date:</td>
+                <td>Contact:</td>
+                <td>Delete:</td>
+            </th>
+            <tr ng-repeat="response in $ctrl.allResponses | orderBy:'readyness' | filter:{realtorAppName:$ctrl.realtorAppName}">
+                <td></td>
+                <td>{{response.readyness}}</td>
+                <td>{{response.name}}</td>
+                <td>{{response.maxHousingExpense.toFixed(2) | currency}}</td>
+                <td>{{response.theMortgage.toFixed(2) | currency}}</td>
+                <td>{{response.totalIncome.toFixed(2) | currency}}</td>
+                <td>{{response.nonHousingDebt.toFixed(2) | currency}}</td>
+                <td>{{response.totalAssets.toFixed(2) | currency}}</td>
+                <td>{{response.monthlyRent.toFixed(2) | currency}}</td>
+                <td>{{response.creditScore}}</td>
+                <td>{{response.createdAt}}</td>
+                <td><a>{{response.initialEmail}}</a></td>
+                <td><a ng-click="$ctrl.deleteUser(response)">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+</div>

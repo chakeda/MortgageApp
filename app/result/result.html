@@ -1,0 +1,187 @@
+<!-- navbar is here so it can be in the aboutController -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://app.uxweb.io">
+        <img src="http://app.uxweb.io/assets/images/LOGO.png" style="max-height:30px;" />
+        <!-- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
+        <u>Home Ready Evaluator</u>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="http://app.uxweb.io">Back to Application</a></li>
+        <li><a href="http://app.uxweb.io/about">About Us</a></li>
+        <li><a ng-click="$ctrl.logout()">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+    function demoFromHTML() {
+            
+      var doc = new jsPDF('p', 'pt');
+
+      var res = doc.autoTableHtmlToJson(document.getElementById("content"));
+      doc.autoTable(res.columns, res.data, {
+        styles: {
+          overflow: 'linebreak',
+          fontSize: 10
+        }
+      });
+
+      var header = function(data) {
+        doc.setFontSize(10);
+        doc.setTextColor(40);
+        doc.setFontStyle('normal');
+        //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+        doc.text("app.uxweb.io applicant financial report", data.settings.margin.left, 50);
+      };
+
+      var options = {
+        beforePageContent: header,
+        margin: {
+          top: 80
+        },
+        startY: doc.autoTableEndPosY() + 20
+      };
+
+      doc.save("Approval.pdf");
+    }
+</script>
+
+<div class="container-fluid messages"> 
+    <div class="row">
+        
+        <h3 class="text-center"> Borrower's Summary Sheet </h3>
+
+        <table class="table table-striped" id="content">
+            <tr>
+                <td><b>Borrower Name:</b> </td>
+                <td>{{$ctrl.userData.name}}</td>
+            </tr>
+            <tr>
+                <td><b>Total Income:</b> </td>
+                <td>{{$ctrl.userData.totalIncome.toFixed(2) | currency}}</td>
+            </tr>
+            <tr>
+                <td><b>Total Debt:</b> </td>
+                <td>{{$ctrl.userData.nonHousingDebt.toFixed(2) | currency}}</td>
+            </tr>
+            <tr>
+                <td><b>Total Assets:</b> </td>
+                <td>{{$ctrl.userData.totalAssets.toFixed(2) | currency}}</td>
+            </tr>
+            <tr>
+                <td><b>Total Gift for down payment:</b> </td>
+                <td>{{$ctrl.userData.giftAssetValue.toFixed(2) | currency}}</td>
+            </tr>
+            <tr>
+                <td><b>Credit Score:</b> </td>
+                <td>{{$ctrl.userData.creditScore}}</td>
+            </tr>
+            <tr>
+                <td><b>Present Housing Payment:</b> </td>
+                <td>{{$ctrl.userData.monthlyRent.toFixed(2) | currency}}</td>
+            </tr>
+        </table>
+        <button onclick="javascript:demoFromHTML()" class="btn btn-default">Export to PDF</button>
+        <br />
+        <br />
+        
+        <div class="panel panel-default well">
+            <h3 class="text-center">Congratulations!</h3>
+            <br />
+            <p class="text-center lead"><b><u>Based on your information, we have estimated the following items:</u></b></p>
+            <br />
+            <p class="lead"><b>Maximum Monthly Housing Expense</b>:  <u>{{$ctrl.userData.maxHousingExpense.toFixed(2) | currency}}</u></p>
+            <p>Maximum monthly housing expense that you can afford. The monthly housing includes the mortgage payment (P&I), taxes, insurance, HOA (if applicable) and MI (if applicable). HOA (Homeowners Association dues) and MI (Mortgage Insurance) depends on the property and the amount of down payment. </p>
+            <br />
+            <p class="lead"><b>Qualified Mortgage Loan Amount</b>:  <u>{{ $ctrl.userData.theMortgage.toFixed(2) | currency }}</u></p>
+            <p>This qualified Mortgage Loan Amount is an estimate based on the information that you supplied and estimated monthly taxes, insurance and mortgage insurance. This Mortgage Loan Amount will be adjusted when an actual property has been identified. If you have found a specific property, please enter the following information so we can recalculate the loan amount.</p>        
+            
+            <!--
+            <small>22% of renters do not know they will qualify today for a home because they think they have to put down the standard 20% of a home.  That means a $100,000 home they think it believe they would have to put down $20,000.  However, with FHA they would only have to put down $5,250.  If we knew they had $6,000 in liquid assets, we could inform them they could purchase home today and that they qualify for this program based on the information we collected.</small>
+            <br />
+            <small>* This is not an official approval.</small>
+            -->
+            <br />
+            <hr />
+            
+            Zip Code:
+            <p class="text-center">
+                <input class="form-control" type="text" ng-model="$ctrl.zipCode"> </input>
+            </p>
+
+            Property price ($):
+            <p class="text-center">
+                <input class="form-control" type="text" ng-model="$ctrl.prospectiveHomeValue" ng-change="$ctrl.updateHomeValue()"> </input>
+            </p>
+            
+            Annual Taxes ($):
+            <p class="text-center">
+                <input class="form-control" type="text" ng-model="$ctrl.annualTax"> </input>
+            </p>
+            
+            Estimated Insurance ($):
+            <p class="text-center">
+                <input class="form-control" type="text" ng-model="$ctrl.estInsurance" > </input>
+            </p>
+            
+            HOA (if applicable):
+            <p class="text-center">
+                <input class="form-control" type="text" ng-model="$ctrl.hoa"> </input>
+            </p>
+            
+            Down payment:
+            <p class="text-center">
+                <input class="form-control" type="text" ng-model="$ctrl.down"> </input>
+            </p>
+            
+            <br />
+            <p class="lead text-center"><b>Mortgage Amount</b>:  <u>{{$ctrl.userData.theMortgage.toFixed(2) | currency}}</u></p>
+
+            
+            <br />
+            <p class="text-center"><a class="btn btn-success" style="font-size:175%;"  href="mailto:{{$ctrl.realtor.email}}">Get your Mortgage Loan</a></p>
+            <p><b>Disclaimer</b>: This summary is supplied for general information and not meant to be a prequalification letter for the purpose to submit an offer. If you are interested in having in your information reviewed, please call/text me at <a>{{$ctrl.realtor.directPhone}}</a> and have your documents available. To email your documents to me directly, please email them to <a href="mailto:{{$ctrl.realtor.email}}">{{$ctrl.realtor.email}}</a>. </p>
+        </div>
+    </div>  
+    
+    <br />
+    <h3 class="text-center"> Questions, Comments, Concerns? </h3>
+    <hr />
+    
+      <div class="row text-center">
+        <h3>{{$ctrl.realtor.name}}</h3> <i>{{$ctrl.realtor.title}}</i>
+        <br />
+        <p>{{$ctrl.realtor.address}}</p>
+        <p>
+            <b>DIRECT:</b> <a href="tel:{{$ctrl.realtor.directPhone}}">{{$ctrl.realtor.directPhone}}</a> | 
+            <b>MOBILE:</b> <a href="tel:{{$ctrl.realtor.mobilePhone}}">{{$ctrl.realtor.mobilePhone}}</a> | 
+            <b>eFAX:</b> <a href="{{$ctrl.realtor.faxPhone}}">{{$ctrl.realtor.faxPhone}}</a>
+        </p>
+        <p>
+            <b>EMAIL:</b> <a href="{{$ctrl.realtor.email}}">{{$ctrl.realtor.email}}</a>
+        </p>
+        <p>
+            <b>FACEBOOK:</b> <a href="{{$ctrl.realtor.facebookUrl}}">{{$ctrl.realtor.facebookName}}</a>
+        </p>
+        <p>
+            <img src="{{$ctrl.realtor.pictureUrl}}" style="max-height:100px;">
+            <a><img src="{{$ctrl.realtor.bannerUrl}}" style="max-height:100px; max-width:400px;"></a>
+        </p>
+        <p>LO Licensing: {{$ctrl.realtor.LOlicense}}</p> 
+        <p>Company Licensing: {{$ctrl.realtor.CompanyLicense}}</p>
+      </div>
+      
+        <div class="row text-center">
+            <img src="http://app.uxweb.io/assets/images/LOGO.png" style="max-height:200px;" />
+          </div>
+</div>

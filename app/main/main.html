@@ -1,0 +1,200 @@
+<!-- navbar is here so it can be in the mainController -->
+<nav class="navbar navbar-default navbar-static-top" ng-style="$ctrl.realtorStyles">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://app.uxweb.io">
+        <img src="http://app.uxweb.io/assets/images/LOGO.png" style="max-height:30px;" />
+        <!-- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
+        <u>Home Ready Evaluator</u>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a ng-show="!$ctrl.loggedIn" data-toggle="modal" data-target="#SaveModal" ng-click="$ctrl.saveProgress(false)">Save Progress</a></li>
+        <li><a ng-show="!$ctrl.loggedIn"  ng-click="$ctrl.previousMessage()">Go to Previous Message</a></li>
+        <li><a ng-show="!$ctrl.loggedIn" ng-click="$ctrl.refresh()">Reset Messages</a></li>
+        <li><a href="http://app.uxweb.io/about" ng-show="!$ctrl.isRealtor">About Us</a></li>
+        <li><a href="mailto:tfinnegan@peoplesmortgage.com" ng-show="!$ctrl.isRealtor">Use this app for your business</a></li>
+        <li><a href="http://app.uxweb.io/admin" ng-show="$ctrl.isRealtor">Admin</a></li>
+        <li><a href="http://app.uxweb.io/realtorProfile" ng-show="$ctrl.isRealtor">Edit App Info</a></li>
+        <li><a href="mailto:tfinnegan@peoplesmortgage.com" ng-show="$ctrl.isRealtor">Help</a></li>
+        <!-- stormpath is all stupid when I href -->
+        <li><a ng-show="!$ctrl.loggedIn" ng-click="$ctrl.goToLogin()">Login</a></li>
+        <li><a ng-show="$ctrl.loggedIn" ng-click="$ctrl.logout()">Logout</a></li>
+        <li><a ng-show="$ctrl.loggedIn" ng-click="$ctrl.goToResultsPage()">Profile</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- modal displayed when user saves progress -->
+<div id="SaveModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+        <h4 class="modal-title" id="myModalLabel">Progress Saved!</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+            Your link to your unfinished form is <a href="{{ savedFormLink }}">{{savedFormLink}}</a>. If you click on this link, you can start where you left off. 
+            Bookmark the link or enter your email below and we'll send you the link.
+        </p>
+        <br />
+        <label>Email:</label>
+        <input type="email" class="form-control" ng-model="$ctrl.userEmail"/>
+        <br />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="$ctrl.sendLinkToUser()">Send Link</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<!-- this.texts -->
+<!-- the directive 'dynamic' allows a variable to have HTML as well as angular things like ng-click -->
+<div class="container-fluid messages"> 
+  <div class="row" class="message" ng-repeat="item in $ctrl.texts" id="{{'message' + $index}}">
+      <div class="text-bubble" ng-class="{'from-me': {{item.from == 'me'}}, 'from-them': {{item.from == 'them'}}}">
+        <p dynamic="item.content"></p>
+      </div>
+  </div>
+</div>
+
+<!-- the textbox -->
+<div class="user-input">
+    <div ng-repeat="item in $ctrl.messages" ng-if="item.slug && $ctrl.messageIndex === $index">
+
+      <div ng-show="$ctrl.inputType === 'string'">
+        <form ng-submit="$ctrl.sendAnswer(item.answer)">
+          <input class="message-input" type="text" ng-model="item.answer">
+            <div class="send-button">
+              <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
+            </div>
+        </form>
+      </div>
+
+      <div ng-show="$ctrl.inputType === 'number'">
+        <form ng-submit="$ctrl.sendAnswer(item.answer)">
+          <input class="message-input" type="text" pattern="\d*" ng-model="item.answer">
+            <div class="send-button">
+              <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
+            </div>
+        </form>
+      </div>
+      
+      <div ng-show="$ctrl.inputType === 'email'">
+        <form ng-submit="$ctrl.sendAnswer(item.answer)">
+          <input class="message-input" type="email" 
+            ng-model="item.answer">
+            <div class="send-button">
+              <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
+            </div>
+        </form>
+      </div>
+      
+      <div ng-show="$ctrl.inputType === 'phone'">
+        <form ng-submit="$ctrl.sendAnswer(item.answer)">
+          <input class="message-input" type="text" 
+            pattern="\d{3}[\-]\d{3}[\-]\d{4}"
+            ng-model="item.answer">
+            <div class="send-button">
+              <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
+            </div>
+        </form>
+      </div>
+      
+      <!-- calendar is all sorts of messed up
+      <div ng-show="$ctrl.inputType === 'calendar'">
+        <form ng-submit="$ctrl.sendAnswer(item.answer)">
+          <div class="input-group">
+            <span class="fa fa-calendar" uib-datepicker ng-model="item.answer"></span>
+            <input disabled class="message-input" type="text" ng-model="item.answer">
+              <div class="send-button">
+                <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
+              </div>
+          </div>
+        </form>
+      </div>
+      -->
+
+      <div ng-show="$ctrl.inputType === 'selectRange'">
+        <form ng-submit="$ctrl.sendAnswer(item.answer)">
+          <select class="form-control message-input" ng-model="item.answer">
+            <option ng-repeat="number in $ctrl.generateRangeArray(item.range[0], item.range[1], item.scale)" ng-value="number">{{number}}</option>
+          </select>
+            <div class="send-button">
+              <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
+            </div>
+        </form>
+      </div>
+
+      <div ng-show="$ctrl.inputType === 'button'">
+        <div class="buttonSelection">
+          <button class="btn btn-info button-option" ng-class="{'active': item.answer === button}" ng-repeat="button in item.choices" ng-click="item.answer = button; $ctrl.sendAnswer(item.answer)">{{button}}</button>
+        </div>
+        <div class="send-button">
+          <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
+        </div>
+      </div>
+    <br />
+
+    </div>
+</div>
+
+
+<!--
+<div class="user-input">
+  <form ng-submit="$ctrl.answerCurrentQuestion($ctrl.inputContents)">
+  <!-- STRING INPUT -->
+
+  <!--
+    <div ng-show="$ctrl.inputType == 'String'">
+      <input class="message-input" type="text" ng-model="$ctrl.inputContents">
+        <div class="send-button">
+          <a ng-click="$ctrl.answerCurrentQuestion($ctrl.inputContents)">Send</a>
+        </div>
+    </div>
+    -->
+  <!-- /STRING INPUT -->
+
+  <!-- NUMBER INPUT -->
+  <!--
+  <div ng-show="$ctrl.inputType == 'Number'">
+      <input class="message-input" type="text" pattern="\d*" ng-model="$ctrl.inputContents">
+        <div class="send-button">
+          <a ng-click="$ctrl.answerCurrentQuestion($ctrl.inputContents)">Send</a>
+        </div>
+    </div>
+    -->
+  <!-- /NUMBER INPUT -->
+
+    <!-- RANGE INPUT -->
+    <!--
+  <div ng-show="$ctrl.inputType == 'Range'">
+      <div class="row">
+        <div class="col-xs-2">
+          <h3>{{$ctrl.inputContents}}</h3>
+        </div>
+        <div class="col-xs-7">
+          <input type="range" ng-model="$ctrl.inputContents">
+        </div>
+        <div class="col-xs-3">
+          <a ng-click="$ctrl.answerCurrentQuestion($ctrl.inputContents)">Send</a>
+        </div>
+      </div>
+    </div>
+    -->
+  <!-- /RANGE INPUT -->
+
+  <!--
+  </form>
+</div>
+-->
