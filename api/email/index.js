@@ -16,7 +16,6 @@ function handleEmailPrimaryApplicant(req, res) {
     var mailOptions = {
         from: 'noreply@uxweb.io',
         to: req.body.email, 
-        bcc: 'Tfinnegan@peoplesmortgage.com',
         subject: req.body.subject,
         html: req.body.text 
     };

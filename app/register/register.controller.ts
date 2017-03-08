@@ -3,6 +3,7 @@
 (function(){
 
 class RegisterComponent {
+  message;
   constructor() {
     this.message = 'Hello';
   }

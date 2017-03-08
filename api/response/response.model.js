@@ -10,7 +10,6 @@ var ResponseSchema = new mongoose.Schema({
     realtorAppName: String,
     
     name: String,
-    age: Number,
     existsOtherPerson: String,
     howManyOthers: String,
     ownedHomeBefore: String,
@@ -32,29 +31,42 @@ var ResponseSchema = new mongoose.Schema({
     timeAtJobMonths: String,
     previousEmployerPaidHow: String,
     previousEmployerGrossPaycheck: String,
-    twoWeekPaycheck: String,
+    paidHow: String,
+    twoWeekPaycheck: Number,
+    weekPaycheck: Number,
+    monthPaycheck: Number,
+    
+    /*
     havePartTimeJob: String,
     partTimeJobMoreThan2Years: String,
     partTimeJobPaidHow: String,
     partTimeJobGrossPaycheck: String,
+    */
     otherIncomeSources: String,
+    otherIncomeSourceName: String,
+    otherIncomeSourceMonthlyAmount: Number,
     hasCashAssets: String,
     cashAssetValue: String,
     hasPropertyAssets: String,
     stillOwnPropertyAssets: String,
     propertyAssetMonthlyPayment: String,
     propertyAssetYearsOfPayments: String,
+    /*
     hasRetirementAssets: String,
     retirementAssetsValue: String,
+    */
     monthlyRent: Number,
+    /*
     monthlyCreditCard: String,
     hasCarPayment: String,
     monthlyCar: String,
+    */
     hasStudentLoans: String,
     totalStudentLoan: String,
     deferredTime: String,
     hasOtherMonthlyPayments: String,
     creditScore: String,
+    /*
     coApplicantReady: String,
     coApplicantFirstName: String,
     coApplicantEmail: String,
@@ -66,6 +78,7 @@ var ResponseSchema = new mongoose.Schema({
     secondCoApplicantFirstName: String,
     secondCoApplicantEmail: String,
     phoneNumberFutureContact2: String,
+    */
     disabilityIncomeAmount: Number,
     deadEnd2: String,
     deadEnd3: String,
@@ -75,15 +88,17 @@ var ResponseSchema = new mongoose.Schema({
     otherMonthlyPaymentsAmount: Number,
     otherMonthlyPaymentsName: String,
     totalIncome: Number,
+    
     nonHousingDebt: Number,
     yourMortgage: Number,
+    totalMonthlyDebt: Number,
     maxHousingExpense: Number,
     hasGiftAssets: String,
     giftAssetValue: Number,
     totalAssets: Number,
-    paidHow: String,
-    weekPaycheck: Number,
-    monthPaycheck: Number,
+    
+
+    comments: String,
     principleAndInterestPayment: Number,
     theMortgage: Number,
     prospectiveHomeValue: Number

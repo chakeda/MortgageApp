@@ -1,5 +1,5 @@
 <!-- navbar is here so it can be in the mainController -->
-<nav class="navbar navbar-default navbar-static-top" ng-style="$ctrl.realtorStyles">
+<nav class="navbar navbar-default navbar-static-top" ng-style="$ctrl.loanOfficerStyles">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://app.uxweb.io">
+      <a class="navbar-brand" href="http://uxweb.io">
         <img src="http://app.uxweb.io/assets/images/LOGO.png" style="max-height:30px;" />
         <!-- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
         <u>Home Ready Evaluator</u>
@@ -15,14 +15,15 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a ng-show="!$ctrl.loggedIn" data-toggle="modal" data-target="#SaveModal" ng-click="$ctrl.saveProgress(false)">Save Progress</a></li>
+        <li><a href="/">App Home</a></li>
+        <li><a ng-show="!$ctrl.loggedIn" data-toggle="modal" data-target="#SaveModal" ng-click="$ctrl.saveProgress()">Save Progress</a></li>
         <li><a ng-show="!$ctrl.loggedIn"  ng-click="$ctrl.previousMessage()">Go to Previous Message</a></li>
         <li><a ng-show="!$ctrl.loggedIn" ng-click="$ctrl.refresh()">Reset Messages</a></li>
-        <li><a href="http://app.uxweb.io/about" ng-show="!$ctrl.isRealtor">About Us</a></li>
-        <li><a href="mailto:tfinnegan@peoplesmortgage.com" ng-show="!$ctrl.isRealtor">Use this app for your business</a></li>
-        <li><a href="http://app.uxweb.io/admin" ng-show="$ctrl.isRealtor">Admin</a></li>
-        <li><a href="http://app.uxweb.io/realtorProfile" ng-show="$ctrl.isRealtor">Edit App Info</a></li>
-        <li><a href="mailto:tfinnegan@peoplesmortgage.com" ng-show="$ctrl.isRealtor">Help</a></li>
+        <li><a href="/about" ng-show="!$ctrl.isLoanOfficer">About Us</a></li>
+        <li><a href="mailto:tfinnegan@peoplesmortgage.com" ng-show="!$ctrl.isLoanOfficer">Use this app for your business</a></li>
+        <li><a href="/admin" ng-show="$ctrl.isLoanOfficer">Admin</a></li>
+        <li><a href="http://app.uxweb.io/loanerProfile" ng-show="$ctrl.isLoanOfficer">Edit App Info</a></li>
+        <li><a href="mailto:tfinnegan@peoplesmortgage.com" ng-show="$ctrl.isLoanOfficer">Help</a></li>
         <!-- stormpath is all stupid when I href -->
         <li><a ng-show="!$ctrl.loggedIn" ng-click="$ctrl.goToLogin()">Login</a></li>
         <li><a ng-show="$ctrl.loggedIn" ng-click="$ctrl.logout()">Logout</a></li>
@@ -30,7 +31,13 @@
       </ul>
     </div>
   </div>
+  
+    <div class="progress" style="max-height:5px; padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+        <div class="progress-bar" ng-style="{width: $ctrl.getCompletionRate() };">
+        </div>
+    </div>
 </nav>
+
 
 <!-- modal displayed when user saves progress -->
 <div id="SaveModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -61,7 +68,8 @@
 <!-- this.texts -->
 <!-- the directive 'dynamic' allows a variable to have HTML as well as angular things like ng-click -->
 <div class="container-fluid messages"> 
-  <div class="row" class="message" ng-repeat="item in $ctrl.texts" id="{{'message' + $index}}">
+  <div class="row" class="message" 
+  ng-repeat="item in $ctrl.texts" id="{{'message' + $index}}">
       <div class="text-bubble" ng-class="{'from-me': {{item.from == 'me'}}, 'from-them': {{item.from == 'them'}}}">
         <p dynamic="item.content"></p>
       </div>
@@ -74,7 +82,7 @@
 
       <div ng-show="$ctrl.inputType === 'string'">
         <form ng-submit="$ctrl.sendAnswer(item.answer)">
-          <input class="message-input" type="text" ng-model="item.answer">
+          <input class="message-input" type="text" ng-model="item.answer" ng-disabled="$ctrl.disableActions">
             <div class="send-button">
               <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
             </div>
@@ -83,7 +91,7 @@
 
       <div ng-show="$ctrl.inputType === 'number'">
         <form ng-submit="$ctrl.sendAnswer(item.answer)">
-          <input class="message-input" type="text" pattern="\d*" ng-model="item.answer">
+          <input class="message-input" type="text" pattern="\d*" ng-model="item.answer" ng-disabled="$ctrl.disableActions">
             <div class="send-button">
               <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
             </div>
@@ -92,7 +100,7 @@
       
       <div ng-show="$ctrl.inputType === 'email'">
         <form ng-submit="$ctrl.sendAnswer(item.answer)">
-          <input class="message-input" type="email" 
+          <input class="message-input" type="email"  ng-disabled="$ctrl.disableActions"
             ng-model="item.answer">
             <div class="send-button">
               <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
@@ -102,11 +110,11 @@
       
       <div ng-show="$ctrl.inputType === 'phone'">
         <form ng-submit="$ctrl.sendAnswer(item.answer)">
-          <input class="message-input" type="text" 
+          <input class="message-input" type="text" ng-disabled="$ctrl.disableActions"
             pattern="\d{3}[\-]\d{3}[\-]\d{4}"
             ng-model="item.answer">
             <div class="send-button">
-              <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
+              <a ng-click="$ctrl.sendAnswer(item.answer)" ng-disabled="$ctrl.disableActions">Send</a>
             </div>
         </form>
       </div>
@@ -127,28 +135,28 @@
 
       <div ng-show="$ctrl.inputType === 'selectRange'">
         <form ng-submit="$ctrl.sendAnswer(item.answer)">
-          <select class="form-control message-input" ng-model="item.answer">
+          <select class="form-control message-input" ng-model="item.answer" ng-disabled="$ctrl.disableActions">
             <option ng-repeat="number in $ctrl.generateRangeArray(item.range[0], item.range[1], item.scale)" ng-value="number">{{number}}</option>
           </select>
             <div class="send-button">
-              <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
+              <a ng-click="$ctrl.sendAnswer(item.answer)" ng-disabled="$ctrl.disableActions">Send</a>
             </div>
         </form>
       </div>
 
       <div ng-show="$ctrl.inputType === 'button'">
         <div class="buttonSelection">
-          <button class="btn btn-info button-option" ng-class="{'active': item.answer === button}" ng-repeat="button in item.choices" ng-click="item.answer = button; $ctrl.sendAnswer(item.answer)">{{button}}</button>
+          <button class="btn btn-info button-option"  ng-disabled="$ctrl.disableActions" ng-class="{'active': item.answer === button}" ng-repeat="button in item.choices" ng-click="item.answer = button; $ctrl.sendAnswer(item.answer)">{{button}}</button>
         </div>
         <div class="send-button">
-          <a ng-click="$ctrl.sendAnswer(item.answer)">Send</a>
+          <a ng-click="$ctrl.sendAnswer(item.answer)" ng-disabled="$ctrl.disableActions">Send</a>
         </div>
       </div>
     <br />
-
+    
     </div>
-</div>
 
+</div>
 
 <!--
 <div class="user-input">

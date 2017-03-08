@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://app.uxweb.io">
+      <a class="navbar-brand" href="http://uxweb.io">
         <img src="http://app.uxweb.io/assets/images/LOGO.png" style="max-height:30px;" />
         <!-- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
         <u>Home Ready Evaluator</u>
@@ -15,8 +15,8 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="http://app.uxweb.io">Back to Application</a></li>
-        <li><a href="http://app.uxweb.io/about">About Us</a></li>
+        <li><a href="/">App Home</a></li>
+        <li><a href="/about">About Us</a></li>
         <li><a ng-click="$ctrl.logout()">Logout</a></li>
       </ul>
     </div>
@@ -159,26 +159,26 @@
     <hr />
     
       <div class="row text-center">
-        <h3>{{$ctrl.realtor.name}}</h3> <i>{{$ctrl.realtor.title}}</i>
+        <h3>{{$ctrl.loanOfficer.name}}</h3> <i>{{$ctrl.loanOfficer.title}}</i>
         <br />
-        <p>{{$ctrl.realtor.address}}</p>
+        <p>{{$ctrl.loanOfficer.address}}</p>
         <p>
-            <b>DIRECT:</b> <a href="tel:{{$ctrl.realtor.directPhone}}">{{$ctrl.realtor.directPhone}}</a> | 
-            <b>MOBILE:</b> <a href="tel:{{$ctrl.realtor.mobilePhone}}">{{$ctrl.realtor.mobilePhone}}</a> | 
-            <b>eFAX:</b> <a href="{{$ctrl.realtor.faxPhone}}">{{$ctrl.realtor.faxPhone}}</a>
+            <b>DIRECT:</b> <a href="tel:{{$ctrl.loanOfficer.directPhone}}">{{$ctrl.loanOfficer.directPhone}}</a> | 
+            <b>MOBILE:</b> <a href="tel:{{$ctrl.loanOfficer.mobilePhone}}">{{$ctrl.loanOfficer.mobilePhone}}</a> | 
+            <b>eFAX:</b> <a href="{{$ctrl.loanOfficer.faxPhone}}">{{$ctrl.loanOfficer.faxPhone}}</a>
         </p>
         <p>
-            <b>EMAIL:</b> <a href="{{$ctrl.realtor.email}}">{{$ctrl.realtor.email}}</a>
+            <b>EMAIL:</b> <a href="{{$ctrl.loanOfficer.email}}">{{$ctrl.loanOfficer.email}}</a>
         </p>
         <p>
-            <b>FACEBOOK:</b> <a href="{{$ctrl.realtor.facebookUrl}}">{{$ctrl.realtor.facebookName}}</a>
+            <b>FACEBOOK:</b> <a href="{{$ctrl.loanOfficer.facebookUrl}}">{{$ctrl.loanOfficer.facebookName}}</a>
         </p>
         <p>
-            <img src="{{$ctrl.realtor.pictureUrl}}" style="max-height:100px;">
-            <a><img src="{{$ctrl.realtor.bannerUrl}}" style="max-height:100px; max-width:400px;"></a>
+            <img src="{{$ctrl.loanOfficer.pictureUrl}}" style="max-height:100px;">
+            <a><img src="{{$ctrl.loanOfficer.bannerUrl}}" style="max-height:100px; max-width:400px;"></a>
         </p>
-        <p>LO Licensing: {{$ctrl.realtor.LOlicense}}</p> 
-        <p>Company Licensing: {{$ctrl.realtor.CompanyLicense}}</p>
+        <p>LO Licensing: {{$ctrl.loanOfficer.LOlicense}}</p> 
+        <p>Company Licensing: {{$ctrl.loanOfficer.CompanyLicense}}</p>
       </div>
       
         <div class="row text-center">

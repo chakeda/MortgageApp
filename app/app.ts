@@ -17,7 +17,7 @@ angular.module('mortgageAppApp', [
     $locationProvider.html5Mode(true);
     
     /* tslint:disable */
-    // since IE is retarded, disabled cache for $http
+    // since IE is stupid, disabled cache for $http
     if (!$httpProvider.defaults.headers.get) {
         $httpProvider.defaults.headers.get = {};    
     } 

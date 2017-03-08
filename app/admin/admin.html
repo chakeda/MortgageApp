@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://app.uxweb.io">
+      <a class="navbar-brand" href="http://uxweb.io">
         <img src="http://app.uxweb.io/assets/images/LOGO.png" style="max-height:30px;" />
         <!-- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
         <u>Home Ready Evaluator</u>
@@ -15,9 +15,9 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="http://app.uxweb.io">Back to Application</a></li>
-        <li><a href="http://app.uxweb.io/admin">Admin</a></li>
-        <li><a href="http://app.uxweb.io/realtorProfile">Edit App Info</a></li>
+        <li><a href="/">App Home</a></li>
+        <li><a href="/admin">Admin</a></li>
+        <!--<li><a href="http://app.uxweb.io/realtorProfile">Edit App Info</a></li>-->
         <li><a href="mailto:tfinnegan@peoplesmortgage.com">Help</a></li>
       </ul>
     </div>
@@ -57,53 +57,120 @@
     }
 </script>
 
+<script type="text/javascript">
 
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
 
-<div class="container-fluid messages"> 
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
 
-    <div class="row" ng-if="!$ctrl.isRealtor">
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    
+<br />
+<br />
+<br />
+<br />
+
+<div class="container"> 
+
+    <div class="row" ng-if="!$ctrl.isLoanOfficer">
         <p>You are not authorized to view this section.</p>
     </div>
     
-    <div class="row" ng-if="$ctrl.isRealtor">
-        <h3 class="text-center"> Applications </h3>
 
+    <div class="row" ng-if="$ctrl.isLoanOfficer">
+            
         <hr />
-        <p>Note: Readiness to Qualify is a 1-3 scale where 1 is ready to go and 3 needs to improve assets, credits, or income.</p>
-        <br />
+        <h3 class="text-center"> Applications </h3>
         
-        <button onclick="javascript:demoFromHTML()" class="btn btn-default">Export to PDF</button>
-        
-        <table class="table table-striped"  id="content">
-            <th>
-                <td>Readiness to Qualify:</td>
-                <td>Borrower Name:</td>
-                <td>Maximum Monthly Housing Expense:</td>
-                <td>Mortgage Loan:</td>
-                <td>Total Income:</td>
-                <td>Total Debt:</td>
-                <td>Total Assets:</td>
-                <td>Present Housing Payment:</td>
-                <td>Credit Score:</td>
-                <td>Application Date:</td>
-                <td>Contact:</td>
-                <td>Delete:</td>
-            </th>
-            <tr ng-repeat="response in $ctrl.allResponses | orderBy:'readyness' | filter:{realtorAppName:$ctrl.realtorAppName}">
-                <td></td>
-                <td>{{response.readyness}}</td>
-                <td>{{response.name}}</td>
-                <td>{{response.maxHousingExpense.toFixed(2) | currency}}</td>
-                <td>{{response.theMortgage.toFixed(2) | currency}}</td>
-                <td>{{response.totalIncome.toFixed(2) | currency}}</td>
-                <td>{{response.nonHousingDebt.toFixed(2) | currency}}</td>
-                <td>{{response.totalAssets.toFixed(2) | currency}}</td>
-                <td>{{response.monthlyRent.toFixed(2) | currency}}</td>
-                <td>{{response.creditScore}}</td>
-                <td>{{response.createdAt}}</td>
-                <td><a>{{response.initialEmail}}</a></td>
-                <td><a ng-click="$ctrl.deleteUser(response)">Delete</a></td>
-            </tr>
-        </table>
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" data-target="#menu1">Table</a></li>
+            <li><a data-toggle="tab" data-target="#menu2">Graph</a></li>
+        </ul>
+    
+        <div class="tab-content">
+            <div id="menu1" class="tab-pane fade in active">
+                
+                    
+                <p>Note: Readiness to Qualify is a 1-3 scale where 1 is ready to go and 3 needs to improve assets, credits, or income.</p>
+                <br />
+                
+                <input style="max-width:500px;" class="form-control" type="text" ng-model="$ctrl.filterAll" placeholder="Filter Results:"/><br />
+                
+                <button onclick="javascript:demoFromHTML()" class="btn btn-default">Export to PDF</button>
+                
+                <table class="table table-striped"  id="content">
+                    <th>
+                        <td ng-click="$ctrl.orderByField='readyness'; $ctrl.reverseSort = !$ctrl.reverseSort">Readiness to Qualify:</td>
+                        <td ng-click="$ctrl.orderByField='name'; $ctrl.reverseSort = !$ctrl.reverseSort">Borrower Name:</td>
+                        <td ng-click="$ctrl.orderByField='maxHousingExpense'; $ctrl.reverseSort = !$ctrl.reverseSort">Maximum Monthly Housing Expense:</td>
+                        <td ng-click="$ctrl.orderByField='theMortgage'; $ctrl.reverseSort = !$ctrl.reverseSort">Mortgage Loan:</td>
+                        <td ng-click="$ctrl.orderByField='totalIncome'; $ctrl.reverseSort = !$ctrl.reverseSort">Total Income:</td>
+                        <td ng-click="$ctrl.orderByField='nonHousingDebt'; $ctrl.reverseSort = !$ctrl.reverseSort">Total Debt:</td>
+                        <td ng-click="$ctrl.orderByField='totalAssets'; $ctrl.reverseSort = !$ctrl.reverseSort">Total Assets:</td>
+                        <td ng-click="$ctrl.orderByField='monthlyRent'; $ctrl.reverseSort = !$ctrl.reverseSort">Present Housing Payment:</td>
+                        <td ng-click="$ctrl.orderByField='creditScore'; $ctrl.reverseSort = !$ctrl.reverseSort">Credit Score:</td>
+                        <td ng-click="$ctrl.orderByField='createdAt'; $ctrl.reverseSort = !$ctrl.reverseSort">Application Date:</td>
+                        <td ng-click="$ctrl.orderByField='initialEmail'; $ctrl.reverseSort = !$ctrl.reverseSort">Contact:</td>
+                        <td ng-click="$ctrl.orderByField='realtorAppName'; $ctrl.reverseSort = !$ctrl.reverseSort">Realtor Lead:</td>
+                        <td>Delete:</td>
+                    </th>
+                    <!-- An authenticated loan officer can only see their realtor's leaded applications -->
+                    <tr ng-repeat="response in $ctrl.allResponses | orderBy:$ctrl.orderByField:$ctrl.reverseSort  | filter:$ctrl.filterAll
+                    | filter:{loanOfficerName:$ctrl.loanOfficerName}">
+                        <td></td>
+                        <td>{{response.readyness}}</td>
+                        <td>{{response.name}}</td>
+                        <td>{{response.maxHousingExpense.toFixed(2) | currency}}</td>
+                        <td>{{response.theMortgage.toFixed(2) | currency}}</td>
+                        <td>{{response.totalIncome.toFixed(2) | currency}}</td>
+                        <td>{{response.nonHousingDebt.toFixed(2) | currency}}</td>
+                        <td>{{response.totalAssets.toFixed(2) | currency}}</td>
+                        <td>{{response.monthlyRent.toFixed(2) | currency}}</td>
+                        <td>{{response.creditScore}}</td>
+                        <td>{{response.createdAt | date}}</td>
+                        <td><a>{{response.initialEmail}}</a></td>
+                        <td>{{response.realtorAppName}}</td>
+                        <td><a ng-click="$ctrl.deleteUser(response)">Delete</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                
+                <h3>Application Analytics</h3>
+                <div class="col-md-8">
+                    <div id="chart_div"></div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    
 </div>

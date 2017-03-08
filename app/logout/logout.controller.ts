@@ -3,6 +3,7 @@
 (function(){
 
 class LogoutComponent {
+  message = '';
   constructor() {
     this.message = 'Hello';
   }
